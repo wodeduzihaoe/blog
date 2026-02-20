@@ -35,25 +35,39 @@ git push -u origin main
 
 ---
 
-### 步骤2️⃣：创建数据库（PlanetScale）（10分钟）
+### 步骤2️⃣：创建数据库（Railway MySQL）（10分钟）
+
+**推荐使用Railway，因为：**
+- ✅ 完全免费（每月$5信用额度，足够小项目使用）
+- ✅ 可以用邮箱注册（不需要GitHub授权）
+- ✅ 支持MySQL，无需修改代码
+- ✅ 对中国用户友好，访问速度快
 
 1. **注册账号**
-   - 访问：https://planetscale.com/
-   - 点击 "Sign up" → 使用GitHub登录
+   - 访问：https://railway.app/
+   - 点击 "Start a New Project" → 使用邮箱注册（或GitHub，但邮箱更方便）
+   - 完成注册
 
-2. **创建数据库**
-   - 点击 "Create database"
-   - 名称：`blog_db`
-   - Plan：选择 `Free`
-   - 点击 "Create"
+2. **创建MySQL数据库**
+   - 登录后，点击 "New Project"
+   - 选择 "Empty Project"
+   - 点击 "+ New" → 选择 "Database" → 选择 "Add MySQL"
+   - 等待数据库创建完成（约1-2分钟）
 
 3. **获取连接信息**
-   - 点击 "Connect" → "General"
-   - 复制：Host、Username、Password（点击Show password）
+   - 点击创建的MySQL服务
+   - 在 "Variables" 标签页，你会看到以下环境变量：
+     - `MYSQL_HOST` - 数据库主机地址
+     - `MYSQL_PORT` - 端口（通常是3306）
+     - `MYSQLDATABASE` - 数据库名
+     - `MYSQLUSER` - 用户名
+     - `MYSQLPASSWORD` - 密码
+   - **复制这些信息**，稍后配置后端时需要用到
 
 4. **创建数据表**
-   - 点击 "Console" → "New branch" → 输入 `main`
-   - 在SQL编辑器中粘贴：
+   - 点击MySQL服务 → "Data" 标签
+   - 点击 "Open MySQL Console" 或使用 "Query" 功能
+   - 在SQL编辑器中执行：
 
 ```sql
 CREATE TABLE IF NOT EXISTS users (
@@ -68,10 +82,9 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
-   - 点击 "Apply"
-   - 点击 "Create deploy request" → "Deploy"
+   - 点击执行
 
-**✅ 完成！记录下连接信息，下一步要用**
+**✅ 完成！记录下连接信息（MYSQL_HOST, MYSQL_PORT, MYSQLDATABASE, MYSQLUSER, MYSQLPASSWORD），下一步要用**
 
 ---
 
@@ -79,7 +92,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 1. **注册账号**
    - 访问：https://railway.app/
-   - 点击 "Start a New Project" → 使用GitHub登录
+   - 点击 "Start a New Project" → 使用邮箱注册（推荐）或GitHub登录
 
 2. **创建项目**
    - 点击 "New Project"
@@ -92,9 +105,9 @@ CREATE TABLE IF NOT EXISTS users (
    - 添加以下变量（点击 "New Variable" 逐个添加）：
 
 ```
-SPRING_DATASOURCE_URL=jdbc:mysql://你的PlanetScale-Host:3306/blog_db?useUnicode=true&characterEncoding=utf8&useSSL=true&requireSSL=true&serverTimezone=Asia/Shanghai
-SPRING_DATASOURCE_USERNAME=你的PlanetScale用户名
-SPRING_DATASOURCE_PASSWORD=你的PlanetScale密码
+SPRING_DATASOURCE_URL=jdbc:mysql://你的Railway-MYSQL_HOST:你的Railway-MYSQL_PORT/你的Railway-MYSQLDATABASE?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+SPRING_DATASOURCE_USERNAME=你的Railway-MYSQLUSER
+SPRING_DATASOURCE_PASSWORD=你的Railway-MYSQLPASSWORD
 SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
 JWT_SECRET=随便写一个至少32位的随机字符串，比如：my-super-secret-jwt-key-2024-change-this
 JWT_EXPIRATION=86400000
@@ -102,7 +115,19 @@ SERVER_PORT=8080
 SPRING_PROFILES_ACTIVE=prod
 ```
 
-   **注意**：把 `你的PlanetScale-Host`、`你的PlanetScale用户名`、`你的PlanetScale密码` 替换为步骤2中复制的信息
+   **注意**：
+   - 把 `你的Railway-MYSQL_HOST` 替换为步骤2中复制的 `MYSQL_HOST` 值
+   - 把 `你的Railway-MYSQL_PORT` 替换为步骤2中复制的 `MYSQL_PORT` 值（通常是3306）
+   - 把 `你的Railway-MYSQLDATABASE` 替换为步骤2中复制的 `MYSQLDATABASE` 值
+   - 把 `你的Railway-MYSQLUSER` 替换为步骤2中复制的 `MYSQLUSER` 值
+   - 把 `你的Railway-MYSQLPASSWORD` 替换为步骤2中复制的 `MYSQLPASSWORD` 值
+   
+   **示例**（不要直接复制，替换为你的实际值）：
+   ```
+   SPRING_DATASOURCE_URL=jdbc:mysql://containers-us.railway.app:3306/railway?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+   SPRING_DATASOURCE_USERNAME=root
+   SPRING_DATASOURCE_PASSWORD=your_password_here
+   ```
 
 4. **等待部署**
    - Railway会自动开始构建和部署

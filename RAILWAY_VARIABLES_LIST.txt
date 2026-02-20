@@ -1,0 +1,9 @@
+SPRING_DATASOURCE_URL=jdbc:mysql://mysql.railway.internal:3306/railway?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=spIFevsdIsgEfwCEPWCfnY0jTILYPDOI
+SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+JWT_SECRET=my-blog-jwt-secret-key-2024-very-long-random-string-at-least-32-chars
+JWT_EXPIRATION=86400000
+SERVER_PORT=8080
+SPRING_PROFILES_ACTIVE=prod
+
