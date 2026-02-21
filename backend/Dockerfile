@@ -5,11 +5,11 @@ WORKDIR /app
 # Copy pom.xml first for better caching
 COPY pom.xml .
 
-# Download dependencies
-RUN mvn dependency:go-offline -B
+# Download dependencies (this will fail if dependencies are missing, but that's ok)
+RUN mvn dependency:go-offline -B || true
 
 # Copy source code
-COPY src/ ./src/
+COPY src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests
