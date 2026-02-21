@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy pom.xml first for better caching
 COPY pom.xml .
 
-# Download dependencies (this will fail if dependencies are missing, but that's ok)
+# Download dependencies
 RUN mvn dependency:go-offline -B || true
 
 # Copy source code
@@ -25,4 +25,3 @@ COPY --from=build /app/target/blog-backend-1.0.0.jar app.jar
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
