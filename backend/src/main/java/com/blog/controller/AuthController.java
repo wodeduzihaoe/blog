@@ -35,11 +35,11 @@ public class AuthController {
             response.put("success", true);
             response.put("message", "注册成功");
             response.put("token", token);
-            response.put("user", Map.of(
-                "id", user.getId(),
-                "username", user.getUsername(),
-                "email", user.getEmail()
-            ));
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("username", user.getUsername());
+            userMap.put("email", user.getEmail());
+            response.put("user", userMap);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
@@ -61,11 +61,11 @@ public class AuthController {
             response.put("success", true);
             response.put("message", "登录成功");
             response.put("token", token);
-            response.put("user", Map.of(
-                "id", user.getId(),
-                "username", user.getUsername(),
-                "email", user.getEmail()
-            ));
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("username", user.getUsername());
+            userMap.put("email", user.getEmail());
+            response.put("user", userMap);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
@@ -92,11 +92,11 @@ public class AuthController {
             User user = userService.getUserById(userId);
             
             response.put("success", true);
-            response.put("user", Map.of(
-                "id", user.getId(),
-                "username", user.getUsername(),
-                "email", user.getEmail()
-            ));
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("username", user.getUsername());
+            userMap.put("email", user.getEmail());
+            response.put("user", userMap);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
